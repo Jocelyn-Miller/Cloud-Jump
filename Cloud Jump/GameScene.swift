@@ -41,9 +41,9 @@ class GameScene: SKScene
         
         var positionx = bird.position.x
         var positiony = bird.position.y
-        if positiony < 600
+        if positiony < 650
         {
-            cam.position.y = 700
+            cam.position.y = 650
             cam.position.x = frame.width / 2
         }
         else{
