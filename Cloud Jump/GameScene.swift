@@ -38,11 +38,18 @@ class GameScene: SKScene
     
     override func update(_ currentTime: CFTimeInterval)
     { //test to see if bird hits the bottom
+        
         var positionx = bird.position.x
         var positiony = bird.position.y
- 
+        if positiony < 600
+        {
+            cam.position.y = 700
+            cam.position.x = frame.width / 2
+        }
+        else{
         cam.position.x = frame.width/2
         cam.position.y = bird.position.y
+        }
     }
 
     
