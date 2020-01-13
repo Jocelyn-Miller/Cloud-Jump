@@ -18,11 +18,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     //var rand = Int.random(in: 50..<700)
     var rand = 403
     var positionYVar = 160
+    let bottom = SKSpriteNode(color: UIColor.red, size: CGSize(width: 750,           height: 10))
+    let cloud = SKSpriteNode(color: UIColor.white, size: CGSize(width: 100,           height: 40))
+    ///ADD TEXTURE TO BOTTOM
+    ///ADD TEXTURE TO CLOUDS
+    ///INCREMENT POSITIONYVAR IN CREATE CLOUDS
 
 //player.run(SKAction.applyImpulse(CGVector(dx: 100, dy: 20), duration: 0))
     override func didMove(to view: SKView)
     {
         addClouds()
+        
+//        let bottom = SKSpriteNode(color: UIColor.red, size: CGSize(width: 750,           height: 10))
+
+        bottom.position = CGPoint(x: frame.width / 2, y: 70)
+        bottom.physicsBody?.isDynamic = true
+        //bottom.color = UIColor.red
+        bottom.physicsBody?.affectedByGravity = false
+        bottom.physicsBody?.categoryBitMask = 11
+        bottom.name = "bottom"
+        makeBottomGround()
+                addChild(bottom)
         motionManager = CMMotionManager()
         motionManager.startAccelerometerUpdates()
         
@@ -39,7 +55,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         cam.setScale(0.5)
         bird.physicsBody?.categoryBitMask = 1
         cloud1.physicsBody?.categoryBitMask = 2
-        bird.physicsBody?.contactTestBitMask = 2 | 10
+        bird.physicsBody?.contactTestBitMask = 2 | 11
         
         
         //cam.setScale(0.)
@@ -82,9 +98,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         //accelerate on clouds
         //stop on bottom
-        if (contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 2) ||  (contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 1)
+        if (contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 11) ||  (contact.bodyA.categoryBitMask == 11 && contact.bodyB.categoryBitMask == 1)
         {
-            print("hit the cloud")
+            print("hit the bottom")
             //contact.bodyA.applyImpulse(CGVector(dx: 0, dy: 1000))
             //contact.bodyB.applyImpulse(CGVector(dx: 0, dy: 1000))
         }
@@ -92,23 +108,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     }
     func createClouds()
     {
-        let cloud = SKSpriteNode(imageNamed: "cloud")
-        cloud.position = CGPoint(x: rand, y: positionYVar)
-        cloud.physicsBody?.isDynamic = false
         
-//        rect.physicsBody = SKPhysicsBody(rectangleOf: rect.frame.size)
-
+        cloud.position = CGPoint(x: rand, y: positionYVar)
+        cloud.physicsBody?.isDynamic = true
         cloud.physicsBody?.affectedByGravity = false
         cloud.physicsBody?.categoryBitMask = 2
             cloud.name = "cloud"
-//        let sandwichTexture = SKTexture(imageNamed: "sandwich")
-//        rect.texture = sandwichTexture
-//        //shape.strokeColor = .black
-        addChild(cloud)
+            makeCloudaCloud()
+            addChild(cloud)
     }
     func addClouds()
     {
+        //total height is 1334
+        //total width is 750
         createClouds()
+    }
+    func makeBottomGround()
+     {
+        let groundTexture: SKTexture = SKTexture(imageNamed: "ground")
+        bottom.texture = groundTexture
+
+     }
+    func makeCloudaCloud()
+    {
+        let cloudTexture: SKTexture = SKTexture(imageNamed: "cloud")
+        cloud.texture = cloudTexture
+        
     }
 
     
