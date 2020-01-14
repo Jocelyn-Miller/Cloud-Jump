@@ -20,24 +20,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var positionYVar = 160
     let bottom = SKSpriteNode(color: UIColor.red, size: CGSize(width: 750,           height: 10))
     let cloud = SKSpriteNode(color: UIColor.white, size: CGSize(width: 100,           height: 40))
-    ///ADD TEXTURE TO BOTTOM
-    ///ADD TEXTURE TO CLOUDS
-    ///INCREMENT POSITIONYVAR IN CREATE CLOUDS
+    var loopCounter = 1
+/// add for loop in addclouds
+/// make contact between bottom and bird
+/// send impulse with bird and cloud
+    
+    
 
 //player.run(SKAction.applyImpulse(CGVector(dx: 100, dy: 20), duration: 0))
     override func didMove(to view: SKView)
     {
         addClouds()
-        
-//        let bottom = SKSpriteNode(color: UIColor.red, size: CGSize(width: 750,           height: 10))
-
+        let groundTexture: SKTexture = SKTexture(imageNamed: "ground")
+        bottom.physicsBody = SKPhysicsBody(texture: groundTexture, size: CGSize(width: 750, height: 10))
+        bottom.texture = groundTexture
         bottom.position = CGPoint(x: frame.width / 2, y: 70)
-        bottom.physicsBody?.isDynamic = true
+        bottom.physicsBody?.isDynamic = false
         //bottom.color = UIColor.red
         bottom.physicsBody?.affectedByGravity = false
         bottom.physicsBody?.categoryBitMask = 11
         bottom.name = "bottom"
-        makeBottomGround()
+        //makeBottomGround()
                 addChild(bottom)
         motionManager = CMMotionManager()
         motionManager.startAccelerometerUpdates()
@@ -81,9 +84,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             bird.position.x = frame.width
         }
         
-        //cam.position.y = bird.position.y
-        
-        var positiony = bird.position.y
+        let positiony = bird.position.y
         if positiony < 400
         {
             cam.position.y = 400
@@ -98,6 +99,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         //accelerate on clouds
         //stop on bottom
+        if (contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 2) ||  (contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 1)
+        {
+            print("hit the cloud")
+            //contact.bodyA.applyImpulse(CGVector(dx: 0, dy: 1000))
+            //contact.bodyB.applyImpulse(CGVector(dx: 0, dy: 1000))
+        }
         if (contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 11) ||  (contact.bodyA.categoryBitMask == 11 && contact.bodyB.categoryBitMask == 1)
         {
             print("hit the bottom")
@@ -105,36 +112,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             //contact.bodyB.applyImpulse(CGVector(dx: 0, dy: 1000))
         }
         
+        
     }
     func createClouds()
     {
+        //cloud.physicsBody = SKPhysicsBody(texture: cloudTexture, size: CGSize(width: 100, height: 40))
+        let cloudTexture: SKTexture = SKTexture(imageNamed: "cloud")
         
+        //cloud.physicsBody = SKPhysicsBody(texture: cloudTexture, size: CGSize(width: 100, height: 40))
+        cloud.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 100, height: 40))
+        cloud.texture = cloudTexture
         cloud.position = CGPoint(x: rand, y: positionYVar)
-        cloud.physicsBody?.isDynamic = true
+        cloud.physicsBody?.isDynamic = false
         cloud.physicsBody?.affectedByGravity = false
         cloud.physicsBody?.categoryBitMask = 2
+        cloud.physicsBody?.restitution = 1
             cloud.name = "cloud"
-            makeCloudaCloud()
             addChild(cloud)
     }
     func addClouds()
     {
-        //total height is 1334
-        //total width is 750
-        createClouds()
-    }
-    func makeBottomGround()
-     {
-        let groundTexture: SKTexture = SKTexture(imageNamed: "ground")
-        bottom.texture = groundTexture
 
-     }
-    func makeCloudaCloud()
-    {
-        let cloudTexture: SKTexture = SKTexture(imageNamed: "cloud")
-        cloud.texture = cloudTexture
+        positionYVar+=130
+        var randCheck = rand
+        rand = Int.random(in: 220...500)
+        if rand > randCheck-20 && rand < randCheck + 20
+        {
+            rand = rand + 70
+        }
+        createClouds()
+        loopCounter+=1
         
+
     }
+
 
     
 }
