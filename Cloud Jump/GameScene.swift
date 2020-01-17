@@ -21,13 +21,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     let bottom = SKSpriteNode(color: UIColor.red, size: CGSize(width: 750,           height: 10))
     let cloudTexture: SKTexture = SKTexture(imageNamed: "cloud")
     
-    var loopCounter = 1
+    var bounceCounter = 0
     var cloudCollection: [SKSpriteNode] = []
+    var bottomHitBool = false
     //var emptyDoubles: [Double] = []
     ///add nest
     ///add stop functions from  breakout
     /// add emittor
     /// deactivate clouds after certain heights
+    ///make sk action that is impulse 
     
     
 
@@ -39,10 +41,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //cloud.physicsBody = SKPhysicsBody(texture: cloudTexture, size: CGSize(width: 100, height: 40))
         cloud1.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 100, height: 40))
         cloud1.texture = cloudTexture
-        cloud1.position = CGPoint(x: 350, y: positionYVar)
+        cloud1.position = CGPoint(x: 300, y: positionYVar)
         cloud1.physicsBody?.isDynamic = false
         cloud1.physicsBody?.affectedByGravity = false
-        cloud1.physicsBody?.categoryBitMask = 2
+        cloud1.physicsBody?.categoryBitMask = 3
         cloud1.physicsBody?.restitution = 1
         
             //cloud.name = "cloud"
@@ -93,7 +95,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         if ((bird.physicsBody?.velocity.dy)!) > CGFloat(0)
             {
-                bird.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -400))
+                //bird.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -400))
                 for cloud in cloudCollection
                 {
                 cloud.physicsBody = nil
@@ -108,15 +110,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                     cloud.physicsBody?.isDynamic = false
                     cloud.physicsBody?.affectedByGravity = false
                     cloud.physicsBody?.categoryBitMask = 2
-                    cloud.physicsBody?.restitution = 1
+                    cloud.physicsBody?.restitution = 1.2
                 }
                     
             }
-         
-       if let accelerometerData = motionManager.accelerometerData
-       {
+        if bottomHitBool == false
+        {
+            if let accelerometerData = motionManager.accelerometerData
+            {
            physicsWorld.gravity.dx = CGFloat(accelerometerData.acceleration.x * 20)
-       }
+            }
+        }
+        
         if bird.position.x > frame.width
         {
             bird.position.x = 0
@@ -144,12 +149,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         if (contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 2) ||  (contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 1)
         {
             print("hit the cloud")
-            contact.bodyA.applyForce(CGVector(dx: 0, dy: 500))
+//            if bounceCounter <= 1 {
+//            bird.physicsBody?.velocity.dy = (bird.physicsBody?.velocity.dy)! + 400
+//                bounceCounter += 1
+            //}else
+            //            {
+            //                bird.physicsBody?.velocity.dy = (bird.physicsBody?.velocity.dy)! + 200
+            //            }
+                        
+            if contact.bodyA.categoryBitMask == 1
+            {
+                contact.bodyA.applyImpulse(CGVector(dx: 0, dy: contact.bodyA.velocity.dy + 500))
+            }
+            else
+            {
+                contact.bodyB.applyImpulse(CGVector(dx: 0, dy:contact.bodyB.velocity.dy + 500))
+            }
+                
+//
+            //contact.bodyA.applyForce(CGVector(dx: 0, dy: 500))
         }
         if (contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 11) ||  (contact.bodyA.categoryBitMask == 11 && contact.bodyB.categoryBitMask == 1)
         {
             print("hit the bottom")
             //ADD STOP FUNCTIONS
+            resetBird()
+            //motionManager = nil
         }
         
         
@@ -173,9 +198,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     }
     func addClouds()
     {
-        for col in 0...9
+        for col in 0...12
         {
-        positionYVar+=120
+        positionYVar+=110
             
         var randCheck = rand
         rand = Int.random(in: 240...520)
@@ -188,28 +213,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
 
     }
+    
+    func bringBirdToCenter()
+    {
+        bird.position = CGPoint(x: 350, y: 70)
+    }
+    func resetBird()
+       {
+           print("reset bird called")
+        bottomHitBool = true
+           bird.physicsBody?.velocity = CGVector.zero
+        bird.removeFromParent()
 
-//    func resetBall()
-//       {
-//           print("reset ball called")
-//           ball.physicsBody?.velocity = CGVector.zero
-//           let wait = SKAction.wait(forDuration: 0.5)
-//           let repositionBall = SKAction.run(bringBallToCenter)
-//           let pushTheBall = SKAction.run(pushBall)
-//           let sequence = SKAction.sequence([wait, repositionBall, wait, pushTheBall])
-//           run(sequence)
-//       }
-//
-//       func bringBallToCenter()
-//       {
-//           ball.position = CGPoint(x: paddle.position.x
-//               , y: paddle.position.y + 100)
-//       }
-//
-//       func pushBall()
-//       {
-//    ball.physicsBody?.applyImpulse(CGVector(dx: 300, dy: 300))
-//       }
+           let wait = SKAction.wait(forDuration: 0.5)
+           let repositionBird = SKAction.run(bringBirdToCenter)
+
+           let sequence = SKAction.sequence([wait, repositionBird])
+           run(sequence)
+       }
+
+       
+
+
        
 //    let spark =  SKEmitterNode(fileNamed: "spark.sks")
 //               spark?.position = contact.contactPoint
