@@ -15,6 +15,8 @@
 		1C5C86FF23BE4F5C00F7A6F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C5C86FD23BE4F5C00F7A6F4 /* Main.storyboard */; };
 		1C5C870123BE4F5E00F7A6F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C5C870023BE4F5E00F7A6F4 /* Assets.xcassets */; };
 		1C5C870423BE4F5E00F7A6F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C5C870223BE4F5E00F7A6F4 /* LaunchScreen.storyboard */; };
+		1C8D6BC123D762E6007CF92C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C8D6BBF23D762E6007CF92C /* Assets.xcassets */; };
+		1C8D6BC323D76491007CF92C /* feather.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1C8D6BC223D76491007CF92C /* feather.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		1C5C870023BE4F5E00F7A6F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1C5C870323BE4F5E00F7A6F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1C5C870523BE4F5E00F7A6F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C8D6BBF23D762E6007CF92C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1C8D6BC223D76491007CF92C /* feather.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = feather.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +48,8 @@
 		1C5C86E723BE4F5C00F7A6F4 = {
 			isa = PBXGroup;
 			children = (
+				1C8D6BC223D76491007CF92C /* feather.sks */,
+				1C8D6BBF23D762E6007CF92C /* Assets.xcassets */,
 				1C5C86F223BE4F5C00F7A6F4 /* Cloud Jump */,
 				1C5C86F123BE4F5C00F7A6F4 /* Products */,
 			);
@@ -135,7 +141,9 @@
 				1C5C86F623BE4F5C00F7A6F4 /* GameScene.sks in Resources */,
 				1C5C870123BE4F5E00F7A6F4 /* Assets.xcassets in Resources */,
 				1C5C870423BE4F5E00F7A6F4 /* LaunchScreen.storyboard in Resources */,
+				1C8D6BC123D762E6007CF92C /* Assets.xcassets in Resources */,
 				1C5C86F823BE4F5C00F7A6F4 /* Actions.sks in Resources */,
+				1C8D6BC323D76491007CF92C /* feather.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
